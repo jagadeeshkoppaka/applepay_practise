@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -29,13 +28,6 @@ class _ApplePayWebviewState extends State<ApplePayWebview> {
     getPaymentDetails();
   }
 
-  // static const _paymentItems = [
-  //   PaymentItem(
-  //     label: 'Total',
-  //     amount: '99.99',
-  //     status: PaymentItemStatus.final_price,
-  //   ),
-  // ];
 
   getPaymentDetails() async {
     String url111 =
@@ -168,44 +160,6 @@ class _ApplePayWebviewState extends State<ApplePayWebview> {
           //   });
           // }
 
-          Future<void> _handlePayPress({
-            required List<ApplePayCartSummaryItem> summaryItems,
-            required List<ApplePayShippingMethod> shippingMethods,
-          }) async {
-            try {
-              // 1. fetch Intent Client Secret from backend
-              final response = await fetchPaymentIntentClientSecret();
-              final clientSecret = response['clientSecret'];
-
-              // 2. Confirm apple pay payment
-              await Stripe.instance.confirmPlatformPayPaymentIntent(
-                clientSecret: clientSecret,
-                confirmParams: PlatformPayConfirmParams.applePay(
-                  applePay: ApplePayParams(
-                    cartItems: items,
-                    requiredShippingAddressFields: [
-                      ApplePayContactFieldsType.name,
-                      ApplePayContactFieldsType.postalAddress,
-                      ApplePayContactFieldsType.emailAddress,
-                      ApplePayContactFieldsType.phoneNumber,
-                    ],
-                    shippingMethods: shippingMethods,
-                    merchantCountryCode: 'Es',
-                    currencyCode: 'EUR',
-                  ),
-                ),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    content: Text('Apple Pay payment succesfully completed')),
-              );
-            } catch (e) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Error: $e')),
-              );
-              rethrow;
-            }
-          }
 
 
           /*Scaffold.of(context).showSnackBar(
